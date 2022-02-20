@@ -1,5 +1,5 @@
-const logger = require('./logger');
+const path = require('path');
 
-logger.log('message');
+var pathObj = path.parse(__filename);
 
-// logger('message'); Use it as function if you imported a function
+console.log(pathObj);
