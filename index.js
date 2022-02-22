@@ -8,19 +8,14 @@ const logger = require("./logger");
 const express = require("express");
 const app = express();
 
+app.set("view engine", "pug");
+app.set("views", "./views"); // default
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(helmet());
 app.use(morgan("tiny"));
-
-if (app.get("env") === "development") {
-  app.use(morgan("tiny"));
-  startupDebugger("Morgan enabled...");
-}
-
-// Db work
-dbDebugger("Connected to the database...");
 
 const courses = [
   { id: 1, name: "course1" },
@@ -29,7 +24,7 @@ const courses = [
 ];
 
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  res.render("index", { title: "My Express App", message: "hello" });
 });
 
 app.get("/api/courses", (req, res) => {
