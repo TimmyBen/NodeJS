@@ -1,17 +1,21 @@
+const morgan = require('morgan');
+const helmet = require('helmet');
 const Joi = require('joi');
 const logger = require('./logger');
 const express = require('express');
 const app = express();
 
+console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+console.log(`app: ${app.get('env')}`);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use(helmet());
+app.use(morgan('tiny'));
 
+app.use(logger);
 
-app.use(function(req, res, next) {
-    console.log('Authenticating...');
-    next();
-});
 
 const courses = [
     { id: 1, name: 'course1' },
